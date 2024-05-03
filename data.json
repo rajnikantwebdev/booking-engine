@@ -1,0 +1,107 @@
+[
+  {
+    "id": 1,
+    "img": "https://r2imghtlak.ibcdn.com/r2-mmt-htl-image/room-imgs/200707021859056563-252-715babba3e2711edae260a58a9feac02.jpg?output-quality=75&downsize=634:357&output-format=webp",
+    "discounted_price": 2000,
+    "name": "Kings international",
+    "rating": 3,
+    "location": "Delhi",
+    "price": 5544,
+    "stars": 3,
+    "indian": true,
+    "spacious": true
+  },
+  {
+    "id": 2,
+    "img": "https://r2imghtlak.ibcdn.com/r2-mmt-htl-image/htl-imgs/201909051441582925-8ff6378cce7911e98c670242ac110004.jpg?output-quality=75&downsize=634:357&output-format=webp",
+    "discounted_price": 1396,
+    "name": "Oxford Hotel",
+    "rating": 3.5,
+    "location": "Bangalore",
+    "price": 3000,
+    "stars": 3,
+    "indian": true
+  },
+  {
+    "id": 3,
+    "img": "https://r2imghtlak.ibcdn.com/r2-mmt-htl-image/htl-imgs/200806171448125968-e26f71c2b43e11e98da602b35a64fa92.jpg?output-quality=75&downsize=634:357&output-format=webp",
+    "discounted_price": 2707,
+    "name": "Hotel Broadway",
+    "rating": 3.6,
+    "location": "Mumbai",
+    "price": 3000,
+    "stars": 4,
+    "indian": true
+  },
+  {
+    "id": 4,
+    "img": "https://r2imghtlak.ibcdn.com/r2-mmt-htl-image/htl-imgs/20110105123332348-0313439a2d4311eab8550242ac11000a.jpg?output-quality=75&downsize=634:357&output-format=webp",
+    "discounted_price": 3982,
+    "name": "Kings international",
+    "rating": 3.2,
+    "location": "Mumbai",
+    "price": 4500,
+    "stars": 5,
+    "indian": true,
+    "children": true,
+    "spacious": true
+  },
+  {
+    "id": 5,
+    "img": "https://r1imghtlak.ibcdn.com/476afe0205f611e6854e0015c5f4277e.jpg?output-quality=75&downsize=634:357&output-format=webp",
+    "discounted_price": 1396,
+    "name": "Taj Hotel",
+    "rating": 2.5,
+    "location": "Delhi",
+    "price": 3000,
+    "stars": 3,
+    "indian": true
+  },
+  {
+    "id": 6,
+    "img": "https://r1imghtlak.ibcdn.com/c8d05832c31911e9944902b35a64fa92.jpg?output-quality=75&downsize=634:357&output-format=webp",
+    "discounted_price": 1411,
+    "name": "Hotel Broadway",
+    "rating": 3.6,
+    "location": "Mumbai",
+    "price": 2300,
+    "stars": 4,
+    "indian": true
+  },
+  {
+    "id": 7,
+    "img": "https://r1imghtlak.ibcdn.com/1e4a3f22894311eaa2ad0242ac110003.jpg?output-quality=75&downsize=328:180&output-format=webp",
+    "discounted_price": 6000,
+    "name": "Maldives beach",
+    "rating": 3.6,
+    "location": "Maldives",
+    "price": 10000,
+    "stars": 3,
+    "indian": false,
+    "children": true,
+    "spacious": true
+  },
+  {
+    "id": 8,
+    "img": "https://r1imghtlak.ibcdn.com/88255e0c337e11eea6350a58a9feac02.jpeg?output-quality=75&downsize=328:180&output-format=webp",
+    "discounted_price": 5000,
+    "name": "Ifuru island",
+    "rating": 3.2,
+    "location": "Spain",
+    "price": 8000,
+    "stars": 4,
+    "indian": false
+  },
+  {
+    "id": 9,
+    "img": "https://r1imghtlak.ibcdn.com/f531b1407e3b11ea9fc80242ac110002.jpg?output-quality=75&downsize=328:180&output-format=webp",
+    "discounted_price": 5000,
+    "name": "Kanni Grand sea island",
+    "rating": 3.9,
+    "location": "Chicago",
+    "price": 9000,
+    "stars": 5,
+    "indian": false,
+    "spacious": true
+  }
+]
