@@ -42,22 +42,44 @@ export const getData = async (
           filteredData.indian && filteredData.location.toLowerCase() === place
       );
     }
-    if (!isIndian && place) {
+
+    if (
+      !isIndian &&
+      place &&
+      adultsCount < 2 &&
+      childrenCount < 1 &&
+      roomCount < 2
+    ) {
       console.log("running fourth one");
       return jsonResponse?.filter(
         (filteredData) =>
           !filteredData.indian && filteredData.location.toLowerCase() === place
       );
     }
+
     if (
-      (isIndian && place && adultsCount > 3) ||
-      (isIndian && place && roomCount > 1) ||
+      (isIndian && place && adultsCount > 2) ||
+      (isIndian && place && roomCount >= 1) ||
       (isIndian && place && childrenCount > 0)
     ) {
       console.log("running last one");
       return jsonResponse?.filter(
         (filteredData) =>
           filteredData.indian &&
+          filteredData.location.toLowerCase() === place &&
+          (filteredData.spacious || filteredData.children)
+      );
+    }
+
+    if (
+      (!isIndian && place && adultsCount > 2) ||
+      (!isIndian && place && roomCount >= 1) ||
+      (!isIndian && place && childrenCount > 0)
+    ) {
+      console.log("running last one");
+      return jsonResponse?.filter(
+        (filteredData) =>
+          !filteredData.indian &&
           filteredData.location.toLowerCase() === place &&
           (filteredData.spacious || filteredData.children)
       );
@@ -114,8 +136,8 @@ const RoomsPage = () => {
         setRoomCount={setRoomCount}
       />
       <section className="my-8 flex flex-wrap gap-9">
-        {data.length !== 0 ? (
-          data.map((hotelData) => {
+        {data?.length !== 0 ? (
+          data?.map((hotelData) => {
             return <CardDefault data={hotelData} key={hotelData.id} />;
           })
         ) : (

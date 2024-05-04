@@ -91,6 +91,9 @@ const SearchComponent = ({
     setIsInternational(false);
     setSelectedPlace("");
     setIndianPlaces({ delhi: false, mumbai: false, bangalore: false });
+    setAdultCount(1);
+    setChildrenCount(0);
+    setRoomCount(1);
   };
 
   const handleInternationalSelect = () => {
@@ -98,6 +101,9 @@ const SearchComponent = ({
     setIsInternational(true);
     setSelectedPlace("");
     setInternationalPlaces({ spain: false, maldives: false, chicago: false });
+    setAdultCount(1);
+    setChildrenCount(0);
+    setRoomCount(1);
   };
 
   return (
@@ -269,13 +275,6 @@ const SearchComponent = ({
           </div>
         )}
       </div>
-      <Button
-        className="px-3 py-2 rounded-full bg-pink-500"
-        onClick={handleSearch}
-        disabled={selectedPlace === ""}
-      >
-        Search
-      </Button>
     </section>
   );
 };
