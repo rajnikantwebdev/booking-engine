@@ -7,11 +7,10 @@ import {
   Button,
 } from "@material-tailwind/react";
 import { IoStarSharp } from "react-icons/io5";
-import { MdOutlineCurrencyRupee } from "react-icons/md";
 
 function CardDefault({ data }) {
   return (
-    <Card className="mt-6 w-96">
+    <Card className="mt-6 w-96 cursor-pointer">
       <CardHeader className="relative h-56">
         {data.spacious && (
           <i className="absolute bg-pink-500 px-2 py-1 rounded-full text-sm top-2 left-2 text-white">

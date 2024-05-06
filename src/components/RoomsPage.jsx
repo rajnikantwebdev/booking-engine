@@ -4,6 +4,8 @@ import ShimmerEffect from "./ShimmerEffect";
 import CardDefault from "./Card";
 import SearchComponent from "./SearchComponent";
 import DataContext from "../utils/getDataContext";
+import { useHotelDataStore } from "../utils/zustand";
+import { FaRocket } from "react-icons/fa6";
 
 export const getData = async (
   isIndian,
@@ -91,33 +93,35 @@ export const getData = async (
 };
 
 const RoomsPage = () => {
-  const { data, setData } = useContext(DataContext);
   const [isInternational, setIsInternational] = useState(false);
   const [isIndia, setIsIndia] = useState(true);
   const [selectedPlace, setSelectedPlace] = useState("");
   const [adultCount, setAdultCount] = useState(1);
   const [childrenCount, setChildrenCount] = useState(0);
   const [roomCount, setRoomCount] = useState(1);
+  const { getHotel, hotels } = useHotelDataStore();
+  const [dataMessage, setDataMessage] = useState(null);
+  const [showMessage, setShowMessage] = useState(false);
+  const [isEmpty, setIsEmpty] = useState(false);
+
   useEffect(() => {
-    const fetchData = async () => {
-      const result = await getData(
-        isIndia,
-        selectedPlace,
-        adultCount,
-        childrenCount,
-        roomCount
-      );
-      setData(result);
-    };
-    fetchData();
-  }, [
-    selectedPlace,
-    isIndia,
-    isInternational,
-    adultCount,
-    childrenCount,
-    roomCount,
-  ]);
+    getHotel(isIndia, selectedPlace, adultCount, roomCount, childrenCount, {
+      setDataMessage,
+      setIsEmpty,
+    });
+  }, [isIndia]);
+
+  useEffect(() => {
+    let delay;
+    if (dataMessage === 0) {
+      delay = setTimeout(() => {
+        setShowMessage(true);
+      }, 2000);
+    } else {
+      setShowMessage(false);
+    }
+    return () => clearInterval(delay);
+  }, [isEmpty]);
 
   return (
     <>
@@ -134,12 +138,30 @@ const RoomsPage = () => {
         setChildrenCount={setChildrenCount}
         roomCount={roomCount}
         setRoomCount={setRoomCount}
+        setDataMessage={setDataMessage}
+        setIsEmpty={setIsEmpty}
       />
-      <section className="my-8 flex flex-wrap gap-9">
-        {data?.length !== 0 ? (
-          data?.map((hotelData) => {
+      <section className="my-8 flex flex-wrap gap-9 w-full">
+        {hotels?.length !== 0 ? (
+          hotels?.map((hotelData) => {
             return <CardDefault data={hotelData} key={hotelData.id} />;
           })
+        ) : dataMessage === 0 ? (
+          showMessage ? (
+            <div className="flex flex-col w-full justify-center my-12 items-center">
+              <div className="flex items-center text-4xl font-bold gap-2 mb-4">
+                <span>No Data Found</span>
+                <span className="text-cyan">
+                  <FaRocket />
+                </span>
+              </div>
+              <button className="bg-blue-400 text-white rounded-3xl px-3 py-2">
+                Go back to Home page
+              </button>
+            </div>
+          ) : (
+            <ShimmerEffect />
+          )
         ) : (
           <ShimmerEffect />
         )}

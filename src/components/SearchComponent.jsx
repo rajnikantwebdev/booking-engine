@@ -1,7 +1,7 @@
 import { useState } from "react";
-import { Button, button } from "@material-tailwind/react";
+import { Button } from "@material-tailwind/react";
 import HotelInfoOptions from "./HotelInfoOptions";
-import { getData } from "./RoomsPage";
+import { useHotelDataStore } from "../utils/zustand";
 
 const LocationOption = ({
   name,
@@ -55,6 +55,8 @@ const SearchComponent = ({
   setChildrenCount,
   roomCount,
   setRoomCount,
+  setDataMessage,
+  setIsEmpty,
 }) => {
   const [addGuestAndRoom, setAddGuestAndRoom] = useState(false);
 
@@ -70,15 +72,15 @@ const SearchComponent = ({
     chicago: false,
   });
 
+  const { getHotel } = useHotelDataStore();
+
   const handleSearch = async () => {
     console.log("search");
-    const result = await getData(
-      isIndia,
-      selectedPlace,
-      adultCount,
-      childrenCount,
-      roomCount
-    );
+    console.log(selectedPlace);
+    getHotel(isIndia, selectedPlace, adultCount, roomCount, childrenCount, {
+      setDataMessage,
+      setIsEmpty,
+    });
   };
   const handleInfo = (e) => {
     e.stopPropagation();
@@ -275,6 +277,13 @@ const SearchComponent = ({
           </div>
         )}
       </div>
+      <Button
+        className="rounded-full px-4 py-2 bg-pink-500"
+        disabled={!selectedPlace}
+        onClick={handleSearch}
+      >
+        Search
+      </Button>
     </section>
   );
 };
