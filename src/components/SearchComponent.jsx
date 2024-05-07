@@ -19,7 +19,7 @@ const LocationOption = ({
         id={location}
         className="hidden"
         checked={place}
-        onChange={(e) => {
+        onChange={() => {
           setPlace({
             delhi: true,
             mumbai: false,
@@ -57,26 +57,17 @@ const SearchComponent = ({
   setRoomCount,
   setDataMessage,
   setIsEmpty,
+  indianPlaces,
+  setIndianPlaces,
+  internationalPlaces,
+  setInternationalPlaces,
 }) => {
   const [addGuestAndRoom, setAddGuestAndRoom] = useState(false);
-
-  const [indianPlaces, setIndianPlaces] = useState({
-    delhi: false,
-    mumbai: false,
-    bangalore: false,
-  });
-
-  const [internationalPlaces, setInternationalPlaces] = useState({
-    spain: false,
-    maldives: false,
-    chicago: false,
-  });
-
-  const { getHotel } = useHotelDataStore();
+  const { getHotel, emptyHotels } = useHotelDataStore();
 
   const handleSearch = async () => {
-    console.log("search");
-    console.log(selectedPlace);
+    emptyHotels({ setIsEmpty });
+
     getHotel(isIndia, selectedPlace, adultCount, roomCount, childrenCount, {
       setDataMessage,
       setIsEmpty,

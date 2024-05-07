@@ -7,10 +7,19 @@ import {
   Button,
 } from "@material-tailwind/react";
 import { IoStarSharp } from "react-icons/io5";
+import { useId } from "../utils/zustand";
 
-function CardDefault({ data }) {
+function CardDefault({ data, setIsCardClicked }) {
+  const { setObjectId } = useId();
+  const handleCardClicked = (id) => {
+    setIsCardClicked(true);
+    setObjectId(id);
+  };
   return (
-    <Card className="mt-6 w-96 cursor-pointer">
+    <Card
+      onClick={() => handleCardClicked(data?._id)}
+      className="bg-gray-100 mt-6 w-96 cursor-pointer"
+    >
       <CardHeader className="relative h-56">
         {data.spacious && (
           <i className="absolute bg-pink-500 px-2 py-1 rounded-full text-sm top-2 left-2 text-white">

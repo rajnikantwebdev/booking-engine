@@ -3,94 +3,10 @@ import { useEffect } from "react";
 import ShimmerEffect from "./ShimmerEffect";
 import CardDefault from "./Card";
 import SearchComponent from "./SearchComponent";
-import DataContext from "../utils/getDataContext";
 import { useHotelDataStore } from "../utils/zustand";
 import { FaRocket } from "react-icons/fa6";
-
-export const getData = async (
-  isIndian,
-  place,
-  adultsCount,
-  childrenCount,
-  roomCount
-) => {
-  try {
-    const response = await fetch(
-      "https://mocki.io/v1/87bc5ee6-62ed-45d2-9e97-e1c667909ee3",
-      {
-        method: "GET",
-      }
-    );
-    const jsonResponse = await response.json();
-
-    if (isIndian && !place) {
-      console.log("running first one");
-      return jsonResponse?.filter((filteredData) => filteredData.indian);
-    }
-    if (!isIndian && !place) {
-      console.log("running second one");
-      return jsonResponse?.filter((filteredData) => !filteredData.indian);
-    }
-    if (
-      isIndian &&
-      place &&
-      adultsCount < 2 &&
-      childrenCount < 1 &&
-      roomCount < 2
-    ) {
-      console.log("running third one");
-      return jsonResponse?.filter(
-        (filteredData) =>
-          filteredData.indian && filteredData.location.toLowerCase() === place
-      );
-    }
-
-    if (
-      !isIndian &&
-      place &&
-      adultsCount < 2 &&
-      childrenCount < 1 &&
-      roomCount < 2
-    ) {
-      console.log("running fourth one");
-      return jsonResponse?.filter(
-        (filteredData) =>
-          !filteredData.indian && filteredData.location.toLowerCase() === place
-      );
-    }
-
-    if (
-      (isIndian && place && adultsCount > 2) ||
-      (isIndian && place && roomCount >= 1) ||
-      (isIndian && place && childrenCount > 0)
-    ) {
-      console.log("running last one");
-      return jsonResponse?.filter(
-        (filteredData) =>
-          filteredData.indian &&
-          filteredData.location.toLowerCase() === place &&
-          (filteredData.spacious || filteredData.children)
-      );
-    }
-
-    if (
-      (!isIndian && place && adultsCount > 2) ||
-      (!isIndian && place && roomCount >= 1) ||
-      (!isIndian && place && childrenCount > 0)
-    ) {
-      console.log("running last one");
-      return jsonResponse?.filter(
-        (filteredData) =>
-          !filteredData.indian &&
-          filteredData.location.toLowerCase() === place &&
-          (filteredData.spacious || filteredData.children)
-      );
-    }
-  } catch (error) {
-    console.error("error: ", error);
-    return [];
-  }
-};
+import { Link } from "react-router-dom";
+import BookNowDialogBox from "./BookNowDialogBox";
 
 const RoomsPage = () => {
   const [isInternational, setIsInternational] = useState(false);
@@ -99,12 +15,25 @@ const RoomsPage = () => {
   const [adultCount, setAdultCount] = useState(1);
   const [childrenCount, setChildrenCount] = useState(0);
   const [roomCount, setRoomCount] = useState(1);
-  const { getHotel, hotels } = useHotelDataStore();
+  const { getHotel, hotels, emptyHotels } = useHotelDataStore();
   const [dataMessage, setDataMessage] = useState(null);
   const [showMessage, setShowMessage] = useState(false);
   const [isEmpty, setIsEmpty] = useState(false);
+  const [indianPlaces, setIndianPlaces] = useState({
+    delhi: false,
+    mumbai: false,
+    bangalore: false,
+  });
+
+  const [internationalPlaces, setInternationalPlaces] = useState({
+    spain: false,
+    maldives: false,
+    chicago: false,
+  });
+  const [isCardClicked, setIsCardClicked] = useState(false);
 
   useEffect(() => {
+    emptyHotels({ setIsEmpty });
     getHotel(isIndia, selectedPlace, adultCount, roomCount, childrenCount, {
       setDataMessage,
       setIsEmpty,
@@ -123,6 +52,21 @@ const RoomsPage = () => {
     return () => clearInterval(delay);
   }, [isEmpty]);
 
+  const fetchHotels = () => {
+    setAdultCount(1);
+    setRoomCount(1);
+    setChildrenCount(0);
+    setSelectedPlace("");
+    setIndianPlaces({ delhi: false, mumbai: false, bangalore: false });
+    setInternationalPlaces({ spain: false, maldives: false, chicago: false });
+    emptyHotels({ setIsEmpty });
+
+    getHotel(isIndia, "", 1, 1, 0, {
+      setDataMessage,
+      setIsEmpty,
+    });
+  };
+
   return (
     <>
       <SearchComponent
@@ -140,11 +84,29 @@ const RoomsPage = () => {
         setRoomCount={setRoomCount}
         setDataMessage={setDataMessage}
         setIsEmpty={setIsEmpty}
+        indianPlaces={indianPlaces}
+        setIndianPlaces={setIndianPlaces}
+        internationalPlaces={internationalPlaces}
+        setInternationalPlaces={setInternationalPlaces}
       />
+      {isCardClicked && (
+        <BookNowDialogBox
+          adultCount={adultCount}
+          roomCount={roomCount}
+          childrenCount={childrenCount}
+          setIsCardClicked={setIsCardClicked}
+        />
+      )}
       <section className="my-8 flex flex-wrap gap-9 w-full">
         {hotels?.length !== 0 ? (
           hotels?.map((hotelData) => {
-            return <CardDefault data={hotelData} key={hotelData.id} />;
+            return (
+              <CardDefault
+                data={hotelData}
+                key={hotelData.id}
+                setIsCardClicked={setIsCardClicked}
+              />
+            );
           })
         ) : dataMessage === 0 ? (
           showMessage ? (
@@ -155,7 +117,10 @@ const RoomsPage = () => {
                   <FaRocket />
                 </span>
               </div>
-              <button className="bg-blue-400 text-white rounded-3xl px-3 py-2">
+              <button
+                onClick={fetchHotels}
+                className="bg-pink-500 text-white rounded-3xl px-3 py-2"
+              >
                 Go back to Home page
               </button>
             </div>
